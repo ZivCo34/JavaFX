@@ -4,11 +4,11 @@ import Themes.BlackTheme;
 import Themes.ThemeInterpeter;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class PipeGameDisplayer extends Canvas{
 
 	char[][] pipeGameData;
+	ThemeInterpeter imInt;
 	int cCol,cRow;
 
 	public PipeGameDisplayer(){
@@ -32,6 +32,7 @@ public class PipeGameDisplayer extends Canvas{
 
 	public void setPipeGameData(char[][] pipeGameData){
 		this.pipeGameData=pipeGameData;
+		this.imInt = new ThemeInterpeter(new BlackTheme());
 		redraw();
 	}
 
@@ -44,17 +45,16 @@ public class PipeGameDisplayer extends Canvas{
 
 			GraphicsContext gc=getGraphicsContext2D();
 
-			ThemeInterpeter imInt = new ThemeInterpeter(new BlackTheme());
-
 			gc.clearRect(0, 0, W, H);
 
 			for(int i=0;i<pipeGameData.length;i++)
 				for(int j=0;j<pipeGameData[i].length;j++){
-					gc.drawImage(imInt.getImage(pipeGameData[i][j]), j*w, i*h, w, h);
+					if(pipeGameData[i][j]!='0' && pipeGameData[i][j]!='S' && pipeGameData[i][j]!='G')
+						gc.drawImage(imInt.getImage(pipeGameData[i][j]), j*w, i*h, w, h);
 				}
 
-			gc.setFill(Color.RED);
-			gc.fillOval(cCol*w, cRow*h, w, h);
+//			gc.setFill(Color.RED);
+//			gc.fillOval(cCol*w, cRow*h, w, h);
 
 		}
 	}

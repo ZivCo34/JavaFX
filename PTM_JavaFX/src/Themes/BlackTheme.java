@@ -2,8 +2,6 @@ package Themes;
 
 public class BlackTheme implements IDisplayTheme{
 
-
-
 	@Override
 	public String getHorizontal_Pipe() {
 		return "./Resources/Horizontal_Pipe.jpg";
