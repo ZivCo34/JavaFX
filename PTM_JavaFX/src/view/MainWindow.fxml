@@ -8,19 +8,20 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import view.PipeGameDisplayer?>
 
-<BorderPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
+              <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem mnemonicParsing="false" text="Theme" />
+                  <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -31,25 +32,9 @@
         </menus>
       </MenuBar>
    </top>
-   <left>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#start" text="Start">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" text="Stop">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-         </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </VBox>
-   </left>
+   <center>
+	  <PipeGameDisplayer fx:id="pipeGameDisplayer" height="700.0" width="700.0" BorderPane.alignment="CENTER" />
+   </center>
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -57,7 +42,12 @@
          </children>
       </HBox>
    </bottom>
-   <center>
-      <PipeGameDisplayer fx:id="pipeGameDisplayer" height="300.0" width="300.0" BorderPane.alignment="CENTER" />
-   </center>
+   <left>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#start" text="Start" />
+            <Button mnemonicParsing="false" text="Stop" />
+         </children>
+      </VBox>
+   </left>
 </BorderPane>

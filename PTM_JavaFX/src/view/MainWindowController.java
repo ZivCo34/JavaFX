@@ -4,28 +4,27 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Themes.BlackTheme;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
 public class MainWindowController implements Initializable{
 
 	char[][] pipeGameData={
-			{'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-			{'S','-','-','-','-','7','0','0','0','0','0','0','0','0','0'},
-			{'0','0','0','0','0','|','0','0','0','0','0','0','0','0','0'},
-			{'0','0','0','0','0','|','0','0','0','0','0','0','0','0','0'},
-			{'0','0','0','0','0','|','0','F','-','-','7','0','0','0','0'},
-			{'0','0','0','0','0','L','-','J','0','0','|','0','0','0','0'},
-			{'0','0','0','0','0','0','0','0','0','0','|','0','0','0','0'},
-			{'0','0','0','0','0','0','0','0','0','0','L','-','-','7','0'},
-			{'0','0','0','0','0','0','0','0','0','0','0','F','-','J','0'},
-			{'0','0','0','0','0','0','0','0','0','0','0','|','0','0','0'},
-			{'0','0','0','0','0','0','0','0','0','0','0','L','-','-','G'},
+			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+			{'s','-','-','-','-','7',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+			{' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+			{' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+			{' ',' ',' ',' ',' ','|',' ','F','-','-','7',' ',' ',' ',' '},
+			{' ',' ',' ',' ',' ','L','-','J',' ',' ','|',' ',' ',' ',' '},
+			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|',' ',' ',' ',' '},
+			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','L','-','-','7',' '},
+			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','F','-','J',' '},
+			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|',' ',' ',' '},
+			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','L','-','-','g'},
 	};
 
 	@FXML
@@ -33,47 +32,55 @@ public class MainWindowController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		pipeGameDisplayer.setPipeGameData(pipeGameData);
+		pipeGameDisplayer.setPipeGameData(pipeGameData,new BlackTheme());
+		pipeGameDisplayer.ti.playMusic();
 
-		pipeGameDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->pipeGameDisplayer.requestFocus());
-
-		pipeGameDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		pipeGameDisplayer.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(KeyEvent event) {
-				int r=pipeGameDisplayer.getcRow();
-				int c=pipeGameDisplayer.getcCol();
-
-				if(event.getCode() == KeyCode.UP){
-					pipeGameDisplayer.setCharacterPosition(r-1, c);
+			public void handle(MouseEvent event) {
+				//W and H are the length of the whole java window
+				double W = pipeGameDisplayer.getWidth();
+				double H = pipeGameDisplayer.getHeight();
+				//w and h are the proportional Canvas size
+				int w = (int)(W/pipeGameData[0].length);
+				int h = (int)(H/pipeGameData.length);
+				//Getting the X's and Y's of the Mouse Click in the whole java whole
+				int j = (int)event.getX();   //columns
+				int i = (int)event.getY();   //rows
+				//Now we calculate the i and j of the pipeGameData matrix
+				int matrix_j = j/w;
+				int matrix_i = i/h;
+				System.out.println(H+" "+W);
+				System.out.println(h+" "+w);
+				System.out.println(i+" "+j);
+				System.out.println(matrix_i+" "+matrix_j);
+				pipeGameDisplayer.changePipePosition(matrix_i, matrix_j,1);
 				}
-				if(event.getCode() == KeyCode.DOWN){
-					pipeGameDisplayer.setCharacterPosition(r+1, c);
-				}
-				if(event.getCode() == KeyCode.RIGHT){
-					pipeGameDisplayer.setCharacterPosition(r, c+1);
-				}
-				if(event.getCode() == KeyCode.LEFT){
-					pipeGameDisplayer.setCharacterPosition(r, c-1);
-				}
-			}
-
 		});
-
 	}
 
-    public void start(){
-        System.out.println("Start");
-    }
+	public void start(){
+		System.out.println("Start");
+	}
 
-    public void openFile(){
-    	FileChooser fc=new FileChooser();
+	public void openFile(){
+		FileChooser fc=new FileChooser();
     	fc.setTitle("open pipe game file");
     	fc.setInitialDirectory(new File("./Resources"));
     	File chosen = fc.showOpenDialog(null);
     	if (chosen!=null){
     		System.out.println(chosen.getName());
     	}
-    }
+	}
+
+	/*public void changeTheme(){
+
+		pipeGameDisplayer.changeTheme();
+	}*/
+
+	/*public void changePipePosition(){
+
+	}*/
 
 }

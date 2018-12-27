@@ -4,32 +4,46 @@ public class BlackTheme implements IDisplayTheme{
 
 	@Override
 	public String getHorizontal_Pipe() {
-		return "./Resources/Horizontal_Pipe.jpg";
+		return "./Resources/BlackTheme/Horizontal_Pipe.jpg";
 	}
 
 	@Override
 	public String getVertical_Pipe() {
-		return "./Resources/Vertical_Pipe.jpg";
+		return "./Resources/BlackTheme/Vertical_Pipe.jpg";
 	}
 
 	@Override
 	public String getPipe_7() {
-		return "./Resources/Pipe_7.jpg";
+		return "./Resources/BlackTheme/Pipe_7.jpg";
 	}
 
 	@Override
 	public String getPipe_J() {
-		return "./Resources/Pipe_J.jpg";
+		return "./Resources/BlackTheme/Pipe_J.jpg";
 	}
 
 	@Override
 	public String getPipe_L() {
-		return "./Resources/Pipe_L.jpg";
+		return "./Resources/BlackTheme/Pipe_L.jpg";
 	}
 
 	@Override
 	public String getPipe_F() {
-		return "./Resources/Pipe_F.jpg";
+		return "./Resources/BlackTheme/Pipe_F.jpg";
 	}
 
+	@Override
+	public String getStart() {
+		return "./Resources/BlackTheme/Start.jpg";
+	}
+
+	@Override
+	public String getGoal() {
+		return "./Resources/BlackTheme/Goal.jpg";
+	}
+
+	@Override
+	public String getMusic() {
+		return "./Resources/BlackTheme/Batman.mp4";
+	}
 }
