@@ -41,10 +41,18 @@ public class BlueTheme implements IDisplayTheme	{
 	public String getGoal() {
 		return "./Resources/BlueTheme/End.png";
 	}
-
+	@Override
+	public String getBackground() {
+		return "./Resources/BlueTheme/Background.jpg";
+	}
 	@Override
 	public String getMusic() {
 		return "./Resources/BlueTheme/HarryPotter.mp4";
+	}
+	
+	@Override
+	public String getName() {
+		return "Blue";
 	}
 
 }

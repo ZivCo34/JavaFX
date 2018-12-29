@@ -4,6 +4,11 @@ import Themes.IDisplayTheme;
 import Themes.ThemeInterpeter;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
 
 public class PipeGameDisplayer extends Canvas{
 
@@ -18,6 +23,7 @@ public class PipeGameDisplayer extends Canvas{
 
 	public void redraw(){
 		if(pipeGameData!=null){
+			
 			double W = getWidth();
 			double H = getHeight();
 			double w = W/pipeGameData[0].length;
@@ -62,8 +68,9 @@ public class PipeGameDisplayer extends Canvas{
 		redraw();
 	}
 
-	public void changeTheme(){
-
+	public void changeTheme(IDisplayTheme newDT){
+		this.ti=new ThemeInterpeter(newDT);
+		redraw();
 	}
 
 }

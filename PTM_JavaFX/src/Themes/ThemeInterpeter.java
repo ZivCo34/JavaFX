@@ -41,7 +41,7 @@ public class ThemeInterpeter {
 		imagesPath.put('F', new ImageURL(my_theme.getPipe_F()));
 		imagesPath.put('s', new ImageURL(my_theme.getStart()));
 		imagesPath.put('g', new ImageURL(my_theme.getGoal()));
-
+	//	imagesPath.put('0', new ImageURL(my_theme.getBackground()));
 		this.playMusic();
 	}
 
@@ -68,5 +68,11 @@ public class ThemeInterpeter {
 		mp = new MediaPlayer(music);
 		mp.play();
 	}
-
+	
+	public void stopMusic() {
+		mp.stop();
+	}
+	public String getThemeName() {
+		return my_theme.getName();
+	}
 }

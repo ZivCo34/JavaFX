@@ -41,9 +41,16 @@ public class BlackTheme implements IDisplayTheme{
 	public String getGoal() {
 		return "./Resources/BlackTheme/Goal.jpg";
 	}
-
+	@Override
+	public String getBackground() {
+		return "./Resources/BlackTheme/Background.jpg";
+	}
 	@Override
 	public String getMusic() {
 		return "./Resources/BlackTheme/Batman.mp4";
+	}
+	@Override
+	public String getName() {
+		return "Black";
 	}
 }

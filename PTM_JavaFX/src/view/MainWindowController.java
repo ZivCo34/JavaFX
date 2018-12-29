@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Themes.BlackTheme;
+import Themes.BlueTheme;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,7 +33,7 @@ public class MainWindowController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		pipeGameDisplayer.setPipeGameData(pipeGameData,new BlackTheme());
+		pipeGameDisplayer.setPipeGameData(pipeGameData,new BlueTheme());
 		pipeGameDisplayer.ti.playMusic();
 
 		pipeGameDisplayer.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -74,10 +75,19 @@ public class MainWindowController implements Initializable{
     	}
 	}
 
-	/*public void changeTheme(){
-
-		pipeGameDisplayer.changeTheme();
-	}*/
+	public void changeTheme(){
+		//theme changer. as for now - it is not generic enough.
+		if(pipeGameDisplayer.ti.getThemeName()=="Blue") {
+			pipeGameDisplayer.ti.stopMusic();
+			pipeGameDisplayer.changeTheme(new BlackTheme());
+			pipeGameDisplayer.ti.playMusic();
+		}
+		else {
+			pipeGameDisplayer.ti.stopMusic();
+			pipeGameDisplayer.changeTheme(new BlueTheme());
+			pipeGameDisplayer.ti.playMusic();
+		}
+	}
 
 	/*public void changePipePosition(){
 
