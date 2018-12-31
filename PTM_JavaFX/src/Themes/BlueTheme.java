@@ -47,7 +47,7 @@ public class BlueTheme implements IDisplayTheme	{
 	}
 	@Override
 	public String getMusic() {
-		return "./Resources/BlueTheme/HarryPotter.mp4";
+		return "./Resources/BlueTheme/Harry Potter Hedwig Theme (Remix Maniacs Trap Remix).mp3";
 	}
 	
 	@Override
