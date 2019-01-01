@@ -1,16 +1,24 @@
 package view;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import Themes.BlackTheme;
 import Themes.BlueTheme;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
 
 public class MainWindowController implements Initializable{
 
@@ -88,9 +96,4 @@ public class MainWindowController implements Initializable{
 			pipeGameDisplayer.ti.playMusic();
 		}
 	}
-
-	/*public void changePipePosition(){
-
-	}*/
-
 }
