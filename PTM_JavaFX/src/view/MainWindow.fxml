@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
+
 <?import view.PipeGameDisplayer?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
@@ -34,11 +36,15 @@
    </top>
    <center>
 	  <PipeGameDisplayer fx:id="pipeGameDisplayer" height="700.0" width="700.0" BorderPane.alignment="CENTER" />
+	  <!-- <Canvas height="700.0" width="700.0" BorderPane.alignment="CENTER" /> -->
    </center>
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Label text="Status" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" />
+            <Label fx:id="timePlay" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Steps:" />
+            <Label fx:id="stepsPlay" />
          </children>
       </HBox>
    </bottom>

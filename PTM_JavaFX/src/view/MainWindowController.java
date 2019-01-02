@@ -1,28 +1,28 @@
+
+
+/*    VIEW    */
+
+
 package view;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import Themes.BlackTheme;
 import Themes.BlueTheme;
+import ViewModel.PipeGame_ViewModel;
+import javafx.beans.property.ListProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.BorderPane;
 
 public class MainWindowController implements Initializable{
 
-	char[][] pipeGameData={
+	public char[][] pipeGameData={
 			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
 			{'s','-','-','-','-','7',' ',' ',' ',' ',' ',' ',' ',' ',' '},
 			{' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -36,14 +36,29 @@ public class MainWindowController implements Initializable{
 			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','L','-','-','g'},
 	};
 
+	public ListProperty<char[]> game;
+
 	@FXML
 	PipeGameDisplayer pipeGameDisplayer;
+	public PipeGame_ViewModel vm;
+
+	@FXML
+	Label timePlay;
+	@FXML
+	Label stepsPlay;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		/*Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		timePlay.setText(sdf.format(cal.getTime()));*/
+		this.vm=new PipeGame_ViewModel();
+		this.setListCharProperty();
+		this.game.bind(vm.game);
+		timePlay.setText("0");
+		stepsPlay.setText("0");
 		pipeGameDisplayer.setPipeGameData(pipeGameData,new BlueTheme());
 		pipeGameDisplayer.ti.playMusic();
-
 		pipeGameDisplayer.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -96,4 +111,17 @@ public class MainWindowController implements Initializable{
 			pipeGameDisplayer.ti.playMusic();
 		}
 	}
+
+	public void setViewModel(PipeGame_ViewModel vm){
+		this.vm=vm;
+	}
+
+	public void setListCharProperty(){
+		int rows = this.pipeGameData[0].length;
+		for(int i=0;i<rows;i++){
+			this.game.add(pipeGameData[i]);
+		}
+	}
+
+
 }
