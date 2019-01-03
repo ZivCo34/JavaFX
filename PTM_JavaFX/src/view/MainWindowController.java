@@ -6,6 +6,7 @@
 package view;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -13,6 +14,7 @@ import Themes.BlackTheme;
 import Themes.BlueTheme;
 import ViewModel.PipeGame_ViewModel;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,14 +49,14 @@ public class MainWindowController implements Initializable{
 	@FXML
 	Label stepsPlay;
 
+	public MainWindowController() {
+		this.vm = new PipeGame_ViewModel();
+		this.game = new SimpleListProperty<>();
+		this.game.bind(vm.game);
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		/*Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		timePlay.setText(sdf.format(cal.getTime()));*/
-		this.vm=new PipeGame_ViewModel();
-		this.setListCharProperty();
-		this.game.bind(vm.game);
 		timePlay.setText("0");
 		stepsPlay.setText("0");
 		pipeGameDisplayer.setPipeGameData(pipeGameData,new BlueTheme());
@@ -88,14 +90,19 @@ public class MainWindowController implements Initializable{
 		System.out.println("Start");
 	}
 
-	public void openFile(){
+	public void openFile() throws IOException{
 		FileChooser fc=new FileChooser();
-    	fc.setTitle("open pipe game file");
-    	fc.setInitialDirectory(new File("./Resources"));
+    	fc.setTitle("Open Pipe Game File");
+    	fc.setInitialDirectory(new File("./Resources/Games/NewGames"));
     	File chosen = fc.showOpenDialog(null);
     	if (chosen!=null){
     		System.out.println(chosen.getName());
+    		this.vm.loadGame(chosen);
     	}
+	}
+
+	public void saveGame() throws IOException{
+		this.vm.saveGame();
 	}
 
 	public void changeTheme(){

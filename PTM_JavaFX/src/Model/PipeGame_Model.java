@@ -4,17 +4,22 @@
 package Model;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Observable;
 
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 
-public class PipeGame_Model extends Observable implements Model_Interface {
+public class PipeGame_Model implements Model_Interface {
 
 	public int port;
 	public String myIP;
@@ -27,6 +32,9 @@ public class PipeGame_Model extends Observable implements Model_Interface {
 	public PipeGame_Model() {
 		this.port = 6400;
 		this.myIP = "localhost";
+		// Create an observable list property
+		this.game = new SimpleListProperty<>(FXCollections.observableArrayList());
+		this.initialGame();
 	}
 
 	@Override
@@ -35,13 +43,43 @@ public class PipeGame_Model extends Observable implements Model_Interface {
 	}
 
 	@Override
-	public void load(String path) {
-		// TODO Auto-generated method stub
+	public void loadGame(File gameFile) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(gameFile));
+		String s = br.readLine();
+		if(!(s.equals(null))){
+			//Clear the game board so we can fill it with a new one
+			game.clear();
+			while (!(s.equals("done"))){
+				game.add(s.toCharArray());
+			}
+		}
+		br.close();
 	}
 
 	@Override
-	public void save(String path) {
-		// TODO Auto-generated method stub
+	public void saveGame() throws IOException {
+		String fileTimeCreate = new SimpleDateFormat("dd-MM-yy HH-mm-ss").format(new Date());
+		File file = new File("./Resources/Games/SavedGames/"+fileTimeCreate+".txt");
+		/*int index = 1;
+		File f = new File("./Resources/Games/SavedGames/"+"Game "+index+".txt");
+		while(f.exists()){
+			index++;
+			f = new File("./Resources/Games/SavedGames/"+"Game "+index+".txt");
+		}*/
+		System.out.println("Created New File To Save To");
+		PrintWriter pr = new PrintWriter(file);
+		String s;
+		for(int i=0;i<this.game.getSize()-1;i++){
+			s = new String(this.game.get(i));
+			pr.println(s);
+		}
+		/*int i = 0;
+		String s = game.get(i).toString();
+		while(!(s.equals("done"))){
+			pr.println(s);
+		}*/
+		pr.close();
+		System.out.println("Done Saveing The Game To The File");
 	}
 
 	@Override
@@ -72,6 +110,12 @@ public class PipeGame_Model extends Observable implements Model_Interface {
 			}
 			System.out.println("Now We Have A List Of Steps To Solution");
 		}
+	}
+
+	public void initialGame(){
+		this.game.add("s||L".toCharArray());
+		this.game.add("--Fg".toCharArray());
+		this.game.add("done".toCharArray());
 	}
 
 }
