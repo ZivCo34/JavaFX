@@ -15,11 +15,11 @@ import javafx.beans.property.SimpleListProperty;
 
 public class PipeGame_ViewModel implements ViewModel_Interface {
 
-	public PipeGame_Model m;
+	PipeGame_Model m;
 	public ListProperty<char[]> game;
 
-	public PipeGame_ViewModel() {
-		this.m = new PipeGame_Model();
+	public PipeGame_ViewModel(PipeGame_Model m) {
+		this.m = m;
 		this.game = new SimpleListProperty<>();
 		this.game.bind(m.game);
 	}
@@ -42,6 +42,10 @@ public class PipeGame_ViewModel implements ViewModel_Interface {
 	@Override
 	public void solve() throws UnknownHostException, IOException {
 		this.m.solve();
+	}
+
+	public void rotatePipe(int i, int j, int timesToRotate){
+		this.m.rotatePipe(i,j,timesToRotate);
 	}
 
 }

@@ -5,6 +5,8 @@
 
 package view;
 
+import java.util.List;
+
 import Themes.IDisplayTheme;
 import Themes.ThemeInterpeter;
 import javafx.scene.canvas.Canvas;
@@ -19,13 +21,26 @@ import javafx.scene.layout.BorderPane;
 
 public class PipeGameDisplayer extends Canvas {
 
-	char[][] pipeGameData;
+	List<char[]> pipeGameData;
 	ThemeInterpeter ti;
 	static BorderPane root;
+	double w;
+	double h;
 
-	public void setPipeGameData(char[][] pipeGameData, IDisplayTheme newDT) {
-		this.pipeGameData = pipeGameData;
+
+
+	public void setPipeGame(IDisplayTheme newDT, List<char[]> pipeGameData){
+		setPipeGameTheme(newDT);
+		setPipeGameData(pipeGameData);
+		this.ti.playMusic();
+	}
+
+	public void setPipeGameTheme(IDisplayTheme newDT){
 		this.ti = new ThemeInterpeter(newDT);
+	}
+
+	public void setPipeGameData(List<char[]> pipeGameData) {
+		this.pipeGameData = pipeGameData;
 		redraw();
 	}
 
@@ -34,46 +49,46 @@ public class PipeGameDisplayer extends Canvas {
 
 			double W = getWidth();
 			double H = getHeight();
-			double w = W / pipeGameData[0].length;
-			double h = H / pipeGameData.length;
+			w = W / pipeGameData.get(0).length;
+			h = H / pipeGameData.size();
 
 			GraphicsContext gc = getGraphicsContext2D();
 
 			gc.clearRect(0, 0, W, H);
-			for (int i = 0; i < pipeGameData.length; i++)
-				for (int j = 0; j < pipeGameData[i].length; j++) {
-					if (pipeGameData[i][j] != ' ')
-						gc.drawImage(ti.getImage(pipeGameData[i][j]), j * w, i * h, w, h);
+			for (int i = 0; i < pipeGameData.size(); i++)
+				for (int j = 0; j < pipeGameData.get(i).length; j++) {
+					if (pipeGameData.get(i)[j] != ' ')
+						gc.drawImage(ti.getImage(pipeGameData.get(i)[j]), j * w, i * h, w, h);
 				}
 		}
 	}
 
-	public void changePipePosition(int i, int j, int timeToSpin) {
+	/*public void changePipePosition(int i, int j, int timeToSpin) {
 		for (int t = 0; t < timeToSpin; t++) {
-			switch (pipeGameData[i][j]) {
+			switch (pipeGameData.get(i)[j]) {
 			case '-':
-				pipeGameData[i][j] = '|';
+				pipeGameData.get(i)[j] = '|';
 				break;
 			case '|':
-				pipeGameData[i][j] = '-';
+				pipeGameData.get(i)[j] = '-';
 				break;
 			case '7':
-				pipeGameData[i][j] = 'J';
+				pipeGameData.get(i)[j] = 'J';
 				break;
 			case 'J':
-				pipeGameData[i][j] = 'L';
+				pipeGameData.get(i)[j] = 'L';
 				break;
 			case 'L':
-				pipeGameData[i][j] = 'F';
+				pipeGameData.get(i)[j] = 'F';
 				break;
 			case 'F':
-				pipeGameData[i][j] = '7';
+				pipeGameData.get(i)[j] = '7';
 				break;
 			}
 		}
 		// this is where we should call the viewmodel (30/12)
 		redraw();
-	}
+	}*/
 
 	public void changeTheme(IDisplayTheme newDT) {
 		this.ti = new ThemeInterpeter(newDT);
@@ -117,4 +132,13 @@ public class PipeGameDisplayer extends Canvas {
 	public double maxWidth(double height) {
 		return 10000;
 	}
+
+	public double getW(){
+		return this.w;
+	}
+
+	public double getH(){
+		return this.h;
+	}
+
 }

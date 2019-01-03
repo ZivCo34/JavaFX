@@ -10,8 +10,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Model.PipeGame_Model;
 import Themes.BlackTheme;
 import Themes.BlueTheme;
+import Themes.IDisplayTheme;
 import ViewModel.PipeGame_ViewModel;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -24,7 +26,7 @@ import javafx.stage.FileChooser;
 
 public class MainWindowController implements Initializable{
 
-	public char[][] pipeGameData={
+/*	public char[][] pipeGameData={
 			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
 			{'s','-','-','-','-','7',' ',' ',' ',' ',' ',' ',' ',' ',' '},
 			{' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' ',' ',' ',' ',' '},
@@ -36,54 +38,53 @@ public class MainWindowController implements Initializable{
 			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','F','-','J',' '},
 			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|',' ',' ',' '},
 			{' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','L','-','-','g'},
-	};
+	};*/
 
 	public ListProperty<char[]> game;
 
-	@FXML
-	PipeGameDisplayer pipeGameDisplayer;
 	public PipeGame_ViewModel vm;
 
+	@FXML
+	PipeGameDisplayer pipeGameDisplayer;
 	@FXML
 	Label timePlay;
 	@FXML
 	Label stepsPlay;
 
+
+
 	public MainWindowController() {
-		this.vm = new PipeGame_ViewModel();
+		PipeGame_Model m =new PipeGame_Model();
+		this.vm = new PipeGame_ViewModel(m);
 		this.game = new SimpleListProperty<>();
 		this.game.bind(vm.game);
 	}
+
+
+	public void addMouseHandler() {
+		if(pipeGameDisplayer==null)
+			return;
+		pipeGameDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->{pipeGameDisplayer.requestFocus();});
+		pipeGameDisplayer.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			@Override
+			public void handle(MouseEvent event) {
+				double w = pipeGameDisplayer.getW();
+				double h = pipeGameDisplayer.getH();
+				int i = (int) (event.getX()/w);
+				int j = (int) (event.getY()/h);
+				vm.rotatePipe(j, i, 1);
+				pipeGameDisplayer.setPipeGameData(vm.game);
+			}
+		});
+	}
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		timePlay.setText("0");
 		stepsPlay.setText("0");
-		pipeGameDisplayer.setPipeGameData(pipeGameData,new BlueTheme());
-		pipeGameDisplayer.ti.playMusic();
-		pipeGameDisplayer.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				//W and H are the length of the whole java window
-				double W = pipeGameDisplayer.getWidth();
-				double H = pipeGameDisplayer.getHeight();
-				//w and h are the proportional Canvas size
-				int w = (int)(W/pipeGameData[0].length);
-				int h = (int)(H/pipeGameData.length);
-				//Getting the X's and Y's of the Mouse Click in the whole java whole
-				int j = (int)event.getX();   //columns
-				int i = (int)event.getY();   //rows
-				//Now we calculate the i and j of the pipeGameData matrix
-				int matrix_j = j/w;
-				int matrix_i = i/h;
-				System.out.println(H+" "+W);
-				System.out.println(h+" "+w);
-				System.out.println(i+" "+j);
-				System.out.println(matrix_i+" "+matrix_j);
-				pipeGameDisplayer.changePipePosition(matrix_i, matrix_j,1);
-				}
-		});
+		this.setPipeGame(new BlueTheme(), this.vm.game);
+		this.addMouseHandler();
 	}
 
 	public void start(){
@@ -123,12 +124,8 @@ public class MainWindowController implements Initializable{
 		this.vm=vm;
 	}
 
-	public void setListCharProperty(){
-		int rows = this.pipeGameData[0].length;
-		for(int i=0;i<rows;i++){
-			this.game.add(pipeGameData[i]);
-		}
+	public void setPipeGame(IDisplayTheme newDT, ListProperty<char[]> gameData){
+		this.pipeGameDisplayer.setPipeGame(newDT, gameData);
 	}
-
 
 }
