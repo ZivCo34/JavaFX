@@ -1,6 +1,6 @@
 
 
-/*    VIEW    */
+/*    PIPE GAME - VIEW    */
 
 
 package view;

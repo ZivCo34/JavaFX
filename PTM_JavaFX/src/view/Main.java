@@ -1,3 +1,8 @@
+
+
+/*    PIPE GAME - MAIN    */
+
+
 package view;
 
 import javafx.application.Application;

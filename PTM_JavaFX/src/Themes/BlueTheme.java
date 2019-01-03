@@ -1,3 +1,8 @@
+
+
+/*    BLUE THEME    */
+
+
 package Themes;
 
 public class BlueTheme implements IDisplayTheme	{
@@ -49,7 +54,7 @@ public class BlueTheme implements IDisplayTheme	{
 	public String getMusic() {
 		return "./Resources/BlueTheme/Harry Potter Hedwig Theme (Remix Maniacs Trap Remix).mp3";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Blue";

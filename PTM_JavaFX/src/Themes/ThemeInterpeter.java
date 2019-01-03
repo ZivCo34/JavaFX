@@ -1,3 +1,8 @@
+
+
+/*    THEME INTERPETER    */
+
+
 package Themes;
 
 import java.io.File;
@@ -68,7 +73,7 @@ public class ThemeInterpeter {
 		mp = new MediaPlayer(music);
 		mp.play();
 	}
-	
+
 	public void stopMusic() {
 		mp.stop();
 	}

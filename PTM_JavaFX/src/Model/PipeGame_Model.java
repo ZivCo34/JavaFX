@@ -1,5 +1,5 @@
 
-/*    MODEL    */
+/*    PIPE GAME - MODEL    */
 
 package Model;
 
