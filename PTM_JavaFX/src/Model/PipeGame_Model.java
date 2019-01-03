@@ -14,7 +14,6 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -25,9 +24,7 @@ public class PipeGame_Model implements Model_Interface {
 	public int port;
 	public String myIP;
 	public Socket server;
-	/*public int x;
-	public int y;*/
-	List<String> listOfSteps;
+	ArrayList<String> listOfSteps;
 	public ListProperty<char[]> game;
 
 	public PipeGame_Model() {
@@ -67,12 +64,7 @@ public class PipeGame_Model implements Model_Interface {
 	public void saveGame() throws IOException {
 		String fileTimeCreate = new SimpleDateFormat("dd-MM-yy HH-mm-ss").format(new Date());
 		File file = new File("./Resources/Games/SavedGames/"+"Game Date "+fileTimeCreate+".txt");
-		/*int index = 1;
-		File f = new File("./Resources/Games/SavedGames/"+"Game "+index+".txt");
-		while(f.exists()){
-			index++;
-			f = new File("./Resources/Games/SavedGames/"+"Game "+index+".txt");
-		}*/
+
 		System.out.println("Created New File To Save To");
 		PrintWriter pr = new PrintWriter(file);
 		String s;
@@ -80,48 +72,43 @@ public class PipeGame_Model implements Model_Interface {
 			s = new String(this.game.get(i));
 			pr.println(s);
 		}
-		/*int i = 0;
-		String s = game.get(i).toString();
-		while(!(s.equals("done"))){
-			pr.println(s);
-		}*/
+
 		pr.close();
 		System.out.println("Done Saveing The Game To The File");
 	}
 
 	@Override
-	public void solve() throws UnknownHostException, IOException {
-		/*התקשורת בין הלקוח לשרת
-		 * צריך ליצור פה בעצם את העברת הנתונים לשרת
-		 * וקבלת רשימה של פקודות הוזזה
-		 * מורכב ממיקום
-		 * (X,Y,TimeToRotate)*/
+	public ArrayList<String> solve() throws UnknownHostException, IOException {
+		/*
+		 * התקשורת בין הלקוח לשרת צריך ליצור פה בעצם את העברת הנתונים לשרת וקבלת
+		 * רשימה של פקודות הוזזה מורכב ממיקום (X,Y,TimeToRotate)
+		 */
+		listOfSteps = new ArrayList<>();
 		server = new Socket(myIP, port);
-		if(server!=null){
-			System.out.println("Successfully Creating Server Socket, Connected To Server");
-			BufferedReader fromServer = new BufferedReader(new InputStreamReader(this.server.getInputStream()));
-			PrintWriter toServer = new PrintWriter(this.server.getOutputStream());
-			System.out.println("Successfully Creating BufferedReader And PrintWriter");
-			System.out.println("Now Passing The Game To Server To Solve");
-			StringBuilder sb = new StringBuilder();
-			int i=0;
-			String s = game.get(i).toString();
-			while(!s.contains("done")){
+		/*List<String> ls = new ArrayList<>();*/
+		String str = new String();
+		System.out.println("Successfully Creating Server Socket, Connected To Server");
+		BufferedReader in = new BufferedReader(new InputStreamReader(this.server.getInputStream()));
+		PrintWriter out = new PrintWriter(this.server.getOutputStream());
+		System.out.println("Successfully Creating BufferedReader And PrintWriter");
 
-			}
-			while(!(game.get(i).toString().equals("done"))){
-				toServer.append(game.get(i).toString()+"\n");
-				i++;
-			}
-			toServer.flush();
-			System.out.println("Now Getting Steps To Solution From Server");
-			String line = fromServer.readLine();
-			while(!(line.equals("done"))){
-				listOfSteps.add(line);
-				line = fromServer.readLine();
-			}
-			System.out.println("Now We Have A List Of Steps To Solution");
+		System.out.println("Now Passing The Game To Server To Solve");
+		for (int i = 0; i < this.game.size(); i++) {
+			str = new String(this.game.getValue().get(i));
+			out.println(str);
+			System.out.println(str);
+			out.flush();
 		}
+		out.println("done");
+		out.flush();
+
+		System.out.println("Now Getting Steps To Solution From Server");
+		while (!(str = in.readLine()).equals("done")) {
+			listOfSteps.add(str);
+			System.out.println(str);
+		}
+		System.out.println("Now We Have A List Of Steps To Solution");
+		return listOfSteps;
 	}
 
 	public void initialGame(){

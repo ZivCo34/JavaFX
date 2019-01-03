@@ -55,6 +55,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#start" text="Start" />
             <Button mnemonicParsing="false" text="Stop" />
+            <Button mnemonicParsing="false" onAction="#solve" text="Solve" />
          </children>
       </VBox>
    </left>

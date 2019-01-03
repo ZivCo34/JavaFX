@@ -8,12 +8,13 @@ package Model;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public interface Model_Interface {
 
 	void changePosition(int i, int j, int numOfRotations);
 	void loadGame(File gameFile) throws IOException;
 	void saveGame() throws IOException;
-	void solve() throws UnknownHostException, IOException;
+	ArrayList<String> solve() throws UnknownHostException, IOException;
 
 }

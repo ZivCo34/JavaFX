@@ -8,6 +8,7 @@ package ViewModel;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import Model.PipeGame_Model;
 import javafx.beans.property.ListProperty;
@@ -40,8 +41,8 @@ public class PipeGame_ViewModel implements ViewModel_Interface {
 	}
 
 	@Override
-	public void solve() throws UnknownHostException, IOException {
-		this.m.solve();
+	public ArrayList<String> solve() throws UnknownHostException, IOException {
+		return this.m.solve();
 	}
 
 	public void rotatePipe(int i, int j, int timesToRotate){

@@ -8,6 +8,8 @@ package view;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Model.PipeGame_Model;
@@ -126,6 +128,13 @@ public class MainWindowController implements Initializable{
 
 	public void setPipeGame(IDisplayTheme newDT, ListProperty<char[]> gameData){
 		this.pipeGameDisplayer.setPipeGame(newDT, gameData);
+	}
+
+	public void solve() throws UnknownHostException, IOException{
+		ArrayList<String> solution = this.vm.solve();
+		for(int i=0;i<solution.size();i++){
+
+		}
 	}
 
 }
