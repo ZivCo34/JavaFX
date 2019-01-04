@@ -23,7 +23,7 @@ public class PipeGameDisplayer extends Canvas {
 
 	List<char[]> pipeGameData;
 	ThemeInterpeter ti;
-	static BorderPane root;
+	//static BorderPane root;
 	double w;
 	double h;
 
@@ -63,28 +63,26 @@ public class PipeGameDisplayer extends Canvas {
 		}
 	}
 
-	/*public void changePipePosition(int i, int j, int timeToSpin) {
-		for (int t = 0; t < timeToSpin; t++) {
-			switch (pipeGameData.get(i)[j]) {
-			case '-':
-				pipeGameData.get(i)[j] = '|';
-				break;
-			case '|':
-				pipeGameData.get(i)[j] = '-';
-				break;
-			case '7':
-				pipeGameData.get(i)[j] = 'J';
-				break;
-			case 'J':
-				pipeGameData.get(i)[j] = 'L';
-				break;
-			case 'L':
-				pipeGameData.get(i)[j] = 'F';
-				break;
-			case 'F':
-				pipeGameData.get(i)[j] = '7';
-				break;
-			}
+	/*public void changePipePosition(int i, int j) {
+		switch (pipeGameData.get(i)[j]) {
+		case '-':
+			pipeGameData.get(i)[j] = '|';
+			break;
+		case '|':
+			pipeGameData.get(i)[j] = '-';
+			break;
+		case '7':
+			pipeGameData.get(i)[j] = 'J';
+			break;
+		case 'J':
+			pipeGameData.get(i)[j] = 'L';
+			break;
+		case 'L':
+			pipeGameData.get(i)[j] = 'F';
+			break;
+		case 'F':
+			pipeGameData.get(i)[j] = '7';
+			break;
 		}
 		// this is where we should call the viewmodel (30/12)
 		redraw();
@@ -103,32 +101,44 @@ public class PipeGameDisplayer extends Canvas {
 
 	// this is the part which makes the canvas adaptable, so it's size is
 	// dynamic.
+	@Override
 	public void resize(double width, double height) {
 		super.setWidth(width);
 		super.setHeight(height);
 		redraw();
 	}
 
+	@Override
 	public boolean isResizable() {
 		return true;
 	}
 
+	@Override
 	public double minHeight(double width) {
 		return 100;
 	}
 
+	@Override
 	public double maxHeight(double width) {
 		return 1200;
 	}
 
+	@Override
 	public double prefHeight(double width) {
 		return minHeight(width);
 	}
 
+	@Override
+	public double prefWidth(double height){
+		return minWidth(height);
+	}
+
+	@Override
 	public double minWidth(double height) {
 		return 0;
 	}
 
+	@Override
 	public double maxWidth(double height) {
 		return 10000;
 	}

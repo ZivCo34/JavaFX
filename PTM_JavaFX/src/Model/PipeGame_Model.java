@@ -5,7 +5,6 @@ package Model;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -14,8 +13,15 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 
@@ -26,55 +32,73 @@ public class PipeGame_Model implements Model_Interface {
 	public Socket server;
 	ArrayList<String> listOfSteps;
 	public ListProperty<char[]> game;
+	public IntegerProperty stepsPlayed;
+	public IntegerProperty timePlayed;
+	public ScheduledExecutorService timer;
+
+
 
 	public PipeGame_Model() {
 		// Create an observable list property
-		this.game = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
-		this.initialGame();
-		this.port = 6400;
-		this.myIP = "localhost";
+		game = new SimpleListProperty<>(FXCollections.observableArrayList(new ArrayList<>()));
+		initialGame();
+		port = 6400;
+		myIP = "localhost";
+		stepsPlayed = new SimpleIntegerProperty();
+		timePlayed = new SimpleIntegerProperty();
+		startTimer();
 	}
 
 	@Override
-	public void changePosition(int i, int j, int numOfRotations) {
-		//
-	}
-
-	@Override
-	public void loadGame(File gameFile) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(gameFile));
-		System.out.println(gameFile);
-		String line = br.readLine();
-		String s = line.substring(0, line.length()-2);
-		System.out.println(s);
-		if(!(s.equals(null))){
-			//Clear the game board so we can fill it with a new one
-			game.clear();
-			while (!(s.equals("done"))){
-				System.out.println(s);
-				game.add(s.toCharArray());
-				line = br.readLine();
-				s = line.substring(0, line.length()-2);
-			}
+	public boolean loadGame(File gameFile) throws IOException {
+		shutdownTimer();
+		Scanner scan=new Scanner(gameFile);
+		if(!scan.equals(null)) {
+			this.game.clear();
 		}
-		br.close();
+		while (scan.hasNext()){
+			char[] line=null;
+			String str = scan.nextLine();
+			line = str.toCharArray();
+			System.out.println(line);
+			this.game.add(line);
+		}
+		//If we load the whole game we get inside, return true
+		if(scan.hasNext()==false){
+			scan.close();
+			startTimer();
+			return true;
+		}
+		//If we still have parts of the game that we didn't load, return false
+		else{
+			scan.close();
+			return false;
+		}
 	}
 
 	@Override
-	public void saveGame() throws IOException {
+	public boolean saveGame() throws IOException {
 		String fileTimeCreate = new SimpleDateFormat("dd-MM-yy HH-mm-ss").format(new Date());
 		File file = new File("./Resources/Games/SavedGames/"+"Game Date "+fileTimeCreate+".txt");
+		//If the file we want to write to is free we get in and save the level in this file
+		//And we return true that the file is saved
+		if(!file.exists()){
+			System.out.println("Created New File To Save To");
+			PrintWriter pr = new PrintWriter(file);
+			String s;
+			for(int i=0;i<this.game.getSize();i++){
+				s = new String(this.game.get(i));
+				pr.println(s);
+			}
+			pr.println("Time:"+timePlayed.get());
+			pr.println("Steps:"+stepsPlayed.get());
 
-		System.out.println("Created New File To Save To");
-		PrintWriter pr = new PrintWriter(file);
-		String s;
-		for(int i=0;i<this.game.getSize();i++){
-			s = new String(this.game.get(i));
-			pr.println(s);
+			pr.close();
+			System.out.println("Done Saveing The Game To The File");
+			return true;
 		}
+		return false;
 
-		pr.close();
-		System.out.println("Done Saveing The Game To The File");
 	}
 
 	@Override
@@ -85,18 +109,19 @@ public class PipeGame_Model implements Model_Interface {
 		 */
 		listOfSteps = new ArrayList<>();
 		server = new Socket(myIP, port);
-		/*List<String> ls = new ArrayList<>();*/
 		String str = new String();
 		System.out.println("Successfully Creating Server Socket, Connected To Server");
-		BufferedReader in = new BufferedReader(new InputStreamReader(this.server.getInputStream()));
-		PrintWriter out = new PrintWriter(this.server.getOutputStream());
+		BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
+		PrintWriter out = new PrintWriter(server.getOutputStream());
 		System.out.println("Successfully Creating BufferedReader And PrintWriter");
 
 		System.out.println("Now Passing The Game To Server To Solve");
-		for (int i = 0; i < this.game.size(); i++) {
-			str = new String(this.game.getValue().get(i));
+		System.out.println("game size: "+game.get(0).length);
+		for (int i = 0; i < game.size(); i++) {
+			str = new String(game.getValue().get(i));
 			out.println(str);
 			System.out.println(str);
+			System.out.println("line size: "+str.length());
 			out.flush();
 		}
 		out.println("done");
@@ -108,6 +133,9 @@ public class PipeGame_Model implements Model_Interface {
 			System.out.println(str);
 		}
 		System.out.println("Now We Have A List Of Steps To Solution");
+		in.close();
+		out.close();
+		server.close();
 		return listOfSteps;
 	}
 
@@ -116,29 +144,76 @@ public class PipeGame_Model implements Model_Interface {
 		this.game.add(" -Fg".toCharArray());
 	}
 
-	public void rotatePipe(int i, int j, int timesToRotate){
-		for (int t = 0; t < timesToRotate; t++) {
-			switch (this.game.get(i)[j]) {
-			case '-':
-				this.game.get(i)[j] = '|';
-				break;
-			case '|':
-				this.game.get(i)[j] = '-';
-				break;
-			case '7':
-				this.game.get(i)[j] = 'J';
-				break;
-			case 'J':
-				this.game.get(i)[j] = 'L';
-				break;
-			case 'L':
-				this.game.get(i)[j] = 'F';
-				break;
-			case 'F':
-				this.game.get(i)[j] = '7';
-				break;
-			}
+	public void rotatePipe(int j, int i) {
+		switch (this.game.get(j)[i]) {
+		case '-':
+			this.game.get(j)[i] = '|';
+			stepsPlayed.set(stepsPlayed.get()+1);
+			break;
+		case '|':
+			this.game.get(j)[i] = '-';
+			stepsPlayed.set(stepsPlayed.get()+1);
+			break;
+		case '7':
+			this.game.get(j)[i] = 'J';
+			stepsPlayed.set(stepsPlayed.get()+1);
+			break;
+		case 'J':
+			this.game.get(j)[i] = 'L';
+			stepsPlayed.set(stepsPlayed.get()+1);
+			break;
+		case 'L':
+			this.game.get(j)[i] = 'F';
+			stepsPlayed.set(stepsPlayed.get()+1);
+			break;
+		case 'F':
+			this.game.get(j)[i] = '7';
+			stepsPlayed.set(stepsPlayed.get()+1);
+			break;
 		}
 	}
+
+	public void startTimer(){
+		timer = Executors.newScheduledThreadPool(1);
+		timer.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				Platform.runLater(()->timePlayed.setValue(timePlayed.get()+1));
+			}
+		}, 0, 1, TimeUnit.SECONDS);
+	}
+
+	public void shutdownTimer(){
+		if(timer!=null){
+			timer.shutdown();
+		timer=null;
+		}
+	}
+
+	public boolean checkWin() throws UnknownHostException, IOException{
+		System.out.println("We Want To Know If We Win The Game Or Not");
+		System.out.println("If We Win We Get: Done\nIf We Lose We Get Someting Else\n");
+		listOfSteps = new ArrayList<>();
+		server = new Socket(myIP, port);
+		String str = new String();
+		BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
+		PrintWriter out = new PrintWriter(server.getOutputStream());
+		for (int i = 0; i < game.size(); i++) {
+			str = new String(game.getValue().get(i));
+			out.println(str);
+			out.flush();
+		}
+		out.println("done");
+		out.flush();
+
+		System.out.println("\nNow Getting Answer From The Server");
+		if ((str = in.readLine()).equals("done")) {
+			System.out.println("We Won!");
+			return true;
+		}
+		System.out.println("We Lose");
+		return false;
+	}
+
 
 }

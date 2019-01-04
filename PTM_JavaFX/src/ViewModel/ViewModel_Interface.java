@@ -12,9 +12,8 @@ import java.util.ArrayList;
 
 public interface ViewModel_Interface {
 
-	void changePosition(int i, int j, int numOfRotations);
-	void loadGame(File gameFile) throws IOException;
-	void saveGame() throws IOException;
+	boolean loadGame(File gameFile) throws IOException;
+	boolean saveGame() throws IOException;
 	ArrayList<String> solve() throws UnknownHostException, IOException;
 
 }

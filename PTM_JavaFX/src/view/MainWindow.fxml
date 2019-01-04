@@ -37,16 +37,16 @@
       </MenuBar>
    </top>
    <center>
-	  <PipeGameDisplayer fx:id="pipeGameDisplayer" height="700.0" width="700.0" BorderPane.alignment="CENTER"/>
+	  <PipeGameDisplayer fx:id="pipeGameDisplayer" height="1000.0" width="1000.0" BorderPane.alignment="CENTER"/>
 	  <!-- <Canvas height="700.0" width="700.0" BorderPane.alignment="CENTER" /> -->
    </center>
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" />
-            <Label fx:id="timePlay" />
+            <Label fx:id="timePlayed" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Steps:" />
-            <Label fx:id="stepsPlay" />
+            <Label fx:id="stepsPlayed" />
          </children>
       </HBox>
    </bottom>
@@ -56,6 +56,7 @@
             <Button mnemonicParsing="false" onAction="#start" text="Start" />
             <Button mnemonicParsing="false" text="Stop" />
             <Button mnemonicParsing="false" onAction="#solve" text="Solve" />
+            <Button mnemonicParsing="false" onAction="#checkWin" text="check" />
          </children>
       </VBox>
    </left>
