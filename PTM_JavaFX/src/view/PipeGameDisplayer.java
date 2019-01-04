@@ -11,19 +11,11 @@ import Themes.IDisplayTheme;
 import Themes.ThemeInterpeter;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.BorderPane;
 
 public class PipeGameDisplayer extends Canvas {
 
 	List<char[]> pipeGameData;
 	ThemeInterpeter ti;
-	//static BorderPane root;
 	double w;
 	double h;
 
@@ -63,40 +55,9 @@ public class PipeGameDisplayer extends Canvas {
 		}
 	}
 
-	/*public void changePipePosition(int i, int j) {
-		switch (pipeGameData.get(i)[j]) {
-		case '-':
-			pipeGameData.get(i)[j] = '|';
-			break;
-		case '|':
-			pipeGameData.get(i)[j] = '-';
-			break;
-		case '7':
-			pipeGameData.get(i)[j] = 'J';
-			break;
-		case 'J':
-			pipeGameData.get(i)[j] = 'L';
-			break;
-		case 'L':
-			pipeGameData.get(i)[j] = 'F';
-			break;
-		case 'F':
-			pipeGameData.get(i)[j] = '7';
-			break;
-		}
-		// this is where we should call the viewmodel (30/12)
-		redraw();
-	}*/
-
 	public void changeTheme(IDisplayTheme newDT) {
 		this.ti = new ThemeInterpeter(newDT);
 		redraw();
-	}
-
-	public static void setBackground(BorderPane root) {
-		BackgroundSize bgSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
-		root.setBackground(new Background(new BackgroundImage(new Image("file:Resources/BlueTheme/Background.jpg"),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, bgSize)));
 	}
 
 	// this is the part which makes the canvas adaptable, so it's size is

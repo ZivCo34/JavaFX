@@ -17,5 +17,4 @@ public interface IDisplayTheme {
 	String getGoal();
 	String getMusic();
 	String getName();
-	String getBackground();
 }

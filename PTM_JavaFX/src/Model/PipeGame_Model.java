@@ -215,5 +215,4 @@ public class PipeGame_Model implements Model_Interface {
 		return false;
 	}
 
-
 }

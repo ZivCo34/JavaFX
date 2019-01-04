@@ -30,23 +30,8 @@ import javafx.stage.FileChooser;
 
 public class MainWindowController implements Initializable {
 
-	/*
-	 * public char[][] pipeGameData={ {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','
-	 * ',' ',' ',' ',' '}, {'s','-','-','-','-','7',' ',' ',' ',' ',' ',' ','
-	 * ',' ',' '}, {' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' ',' ',' ',' ','
-	 * '}, {' ',' ',' ',' ',' ','|',' ',' ',' ',' ',' ',' ',' ',' ',' '}, {' ','
-	 * ',' ',' ',' ','|',' ','F','-','-','7',' ',' ',' ',' '}, {' ',' ',' ','
-	 * ',' ','L','-','J',' ',' ','|',' ',' ',' ',' '}, {' ',' ',' ',' ',' ','
-	 * ',' ',' ',' ',' ','|',' ',' ',' ',' '}, {' ',' ',' ',' ',' ',' ',' ','
-	 * ',' ',' ','L','-','-','7',' '}, {' ',' ',' ',' ',' ',' ',' ',' ',' ','
-	 * ',' ','F','-','J',' '}, {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','
-	 * ','|',' ',' ',' '}, {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','
-	 * ','L','-','-','g'}, };
-	 */
-
 	public ListProperty<char[]> game;
 	public PipeGame_ViewModel vm;
-
 	@FXML
 	PipeGameDisplayer pipeGameDisplayer;
 	@FXML
@@ -178,6 +163,16 @@ public class MainWindowController implements Initializable {
 			alertLoseMessage();
 		}
 	}
+
+	//About
+	public void about(){
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Info");
+		alert.setHeaderText(null);
+		alert.setContentText("Creators: Eilon Vainboim and Ziv Cohen");
+		alert.showAndWait();
+	}
+
 
 	//File Error
 	public void alertFileError() {

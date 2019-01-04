@@ -27,7 +27,7 @@ public class Main extends Application {
 			loader.setController(mwc);
 			BorderPane root = (BorderPane)loader.load();
 			BackgroundSize bgSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
-			root.setBackground(new Background(new BackgroundImage(new Image("file:Resources/Background.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, bgSize)));
+			root.setBackground(new Background(new BackgroundImage(new Image("file:Resources/BackgroundHarry.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, bgSize)));
 			Scene scene = new Scene(root,800,800);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);

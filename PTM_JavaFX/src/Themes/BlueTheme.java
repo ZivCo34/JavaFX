@@ -47,10 +47,6 @@ public class BlueTheme implements IDisplayTheme	{
 		return "./Resources/BlueTheme/End.png";
 	}
 	@Override
-	public String getBackground() {
-		return "./Resources/BlueTheme/Background.jpg";
-	}
-	@Override
 	public String getMusic() {
 		return "./Resources/BlueTheme/Harry Potter Hedwig Theme (Remix Maniacs Trap Remix).mp3";
 	}

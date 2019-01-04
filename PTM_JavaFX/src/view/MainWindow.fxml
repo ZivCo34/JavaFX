@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import view.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.geometry.*?>
@@ -10,35 +11,32 @@
 
 <?import view.PipeGameDisplayer?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
-                  <MenuItem mnemonicParsing="false" onAction="#saveGame" text="Save" />
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#saveGame" text="Save" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#changeTheme" text="Theme"/>
-                  <MenuItem mnemonicParsing="false" text="Delete"/>
+                  <MenuItem mnemonicParsing="false" onAction="#changeTheme" text="Theme" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About"/>
+              <MenuItem mnemonicParsing="false" onAction="#about" text="About" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
    <center>
-	  <PipeGameDisplayer fx:id="pipeGameDisplayer" height="1000.0" width="1000.0" BorderPane.alignment="CENTER"/>
-	  <!-- <Canvas height="700.0" width="700.0" BorderPane.alignment="CENTER" /> -->
+	  <PipeGameDisplayer fx:id="pipeGameDisplayer" height="531.0" width="589.0" BorderPane.alignment="CENTER" />
+	  <!-- <Canvas height="531.0" width="589.0" BorderPane.alignment="CENTER" /> -->
    </center>
    <bottom>
       <HBox BorderPane.alignment="CENTER">
@@ -53,10 +51,9 @@
    <left>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#start" text="Start" />
-            <Button mnemonicParsing="false" text="Stop" />
-            <Button mnemonicParsing="false" onAction="#solve" text="Solve" />
-            <Button mnemonicParsing="false" onAction="#checkWin" text="check" />
+            <Button mnemonicParsing="false" onAction="#start" prefHeight="30.0" prefWidth="60.0" text="Start" />
+            <Button mnemonicParsing="false" onAction="#solve" prefHeight="30.0" prefWidth="60.0" text="Solve" />
+            <Button mnemonicParsing="false" onAction="#checkWin" prefHeight="30.0" prefWidth="60.0" text="check" />
          </children>
       </VBox>
    </left>
